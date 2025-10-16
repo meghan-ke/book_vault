@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Vault Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ccc; border-radius: 5px; }
+        .success { background-color: #d4edda; border-color: #c3e6cb; }
+        .error { background-color: #f8d7da; border-color: #f5c6cb; }
+        button { padding: 10px 15px; margin: 5px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>Book Vault Functionality Test</h1>
+    
+    <div class="test-section">
+        <h2>Test 1: Check if main page loads without errors</h2>
+        <button onclick="testMainPage()">Test Main Page</button>
+        <div id="test1-result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Test 2: Check CSS loading</h2>
+        <button onclick="testCSS()">Test CSS</button>
+        <div id="test2-result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Test 3: Check JavaScript modules</h2>
+        <button onclick="testJS()">Test JavaScript</button>
+        <div id="test3-result"></div>
+    </div>
+    
+    <script>
+        function testMainPage() {
+            const result = document.getElementById('test1-result');
+            try {
+                // Test if we can access the main page
+                fetch('index.html')
+                    .then(response => {
+                        if (response.ok) {
+                            result.innerHTML = '<span style="color: green;">✓ Main page loads successfully</span>';
+                            result.parentElement.className = 'test-section success';
+                        } else {
+                            result.innerHTML = '<span style="color: red;">✗ Main page failed to load</span>';
+                            result.parentElement.className = 'test-section error';
+                        }
+                    })
+                    .catch(error => {
+                        result.innerHTML = '<span style="color: red;">✗ Error: ' + error.message + '</span>';
+                        result.parentElement.className = 'test-section error';
+                    });
+            } catch (error) {
+                result.innerHTML = '<span style="color: red;">✗ Error: ' + error.message + '</span>';
+                result.parentElement.className = 'test-section error';
+            }
+        }
+        
+        function testCSS() {
+            const result = document.getElementById('test2-result');
+            try {
+                fetch('styles/main.css')
+                    .then(response => {
+                        if (response.ok) {
+                            result.innerHTML = '<span style="color: green;">✓ CSS loads successfully</span>';
+                            result.parentElement.className = 'test-section success';
+                        } else {
+                            result.innerHTML = '<span style="color: red;">✗ CSS failed to load</span>';
+                            result.parentElement.className = 'test-section error';
+                        }
+                    })
+                    .catch(error => {
+                        result.innerHTML = '<span style="color: red;">✗ Error: ' + error.message + '</span>';
+                        result.parentElement.className = 'test-section error';
+                    });
+            } catch (error) {
+                result.innerHTML = '<span style="color: red;">✗ Error: ' + error.message + '</span>';
+                result.parentElement.className = 'test-section error';
+            }
+        }
+        
+        function testJS() {
+            const result = document.getElementById('test3-result');
+            try {
+                const scripts = [
+                    'scripts/ui.js',
+                    'scripts/state.js',
+                    'scripts/storage.js',
+                    'scripts/stats.js',
+                    'scripts/search.js',
+                    'scripts/validators.js',
+                    'scripts/notes.js'
+                ];
+                
+                let loaded = 0;
+                let total = scripts.length;
+                
+                scripts.forEach(script => {
+                    fetch(script)
+                        .then(response => {
+                            if (response.ok) {
+                                loaded++;
+                                if (loaded === total) {
+                                    result.innerHTML = '<span style="color: green;">✓ All JavaScript modules load successfully</span>';
+                                    result.parentElement.className = 'test-section success';
+                                }
+                            } else {
+                                result.innerHTML = '<span style="color: red;">✗ Some JavaScript modules failed to load</span>';
+                                result.parentElement.className = 'test-section error';
+                            }
+                        })
+                        .catch(error => {
+                            result.innerHTML = '<span style="color: red;">✗ Error loading JavaScript: ' + error.message + '</span>';
+                            result.parentElement.className = 'test-section error';
+                        });
+                });
+            } catch (error) {
+                result.innerHTML = '<span style="color: red;">✗ Error: ' + error.message + '</span>';
+                result.parentElement.className = 'test-section error';
+            }
+        }
+    </script>
+</body>
+</html>

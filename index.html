@@ -23,122 +23,173 @@
 
     <main id="main-content">
         <section id="dashboard" class="page active">
-            <h2>Dashboard</h2>
-            <div class="statistics">
-                <div class="stat-el">Total Books: <span id="total-books">0</span></div>
-                <div class="stat-el">Total Pages: <span id="total-pages">0</span></div>
-                <div class="stat-el">Top Tag: <span id="top-tag">-</span></div>
-                <div class="stat-el">Recently Added: <span id="recent">-</span></div>
+            <div class="page-header">
+                <h2>Dashboard</h2>
             </div>
-            <div class="goal-card stat-el" style="margin-bottom:16px;">
+            <div class="statistics">
+                <div class="stat-el">
+                    <div>Total Books</div>
+                    <strong id="total-books">0</strong>
+                </div>
+                <div class="stat-el">
+                    <div>Total Pages</div>
+                    <strong id="total-pages">0</strong>
+                </div>
+                <div class="stat-el">
+                    <div>Top Tag</div>
+                    <strong id="top-tag">-</strong>
+                </div>
+                <div class="stat-el">
+                    <div>Recently Added</div>
+                    <strong id="recent">-</strong>
+                </div>
+            </div>
+            <div class="goal-card">
                 <h3>Weekly Reading Goal</h3>
                 <div class="goal-input-row">
                     <input type="number" id="weekly-goal-input" min="0" placeholder="Pages per week">
                     <button id="set-weekly-goal">Set Goal</button>
                     <button id="clear-weekly-goal" title="Clear goal">Clear</button>
                 </div>
-                <div class="goal-display" style="margin-top:12px;">
+                <div class="goal-display">
                     <div>Target: <strong id="weekly-goal-value">0</strong> pages / week</div>
                     <div class="progress-container" aria-hidden="true">
                         <div id="weekly-progress-bar" class="progress-bar"></div>
                     </div>
-                    <div id="weekly-progress-text" style="margin-top:6px; font-size:0.95rem; color:#333;">No progress yet</div>
+                    <div id="weekly-progress-text">No progress yet</div>
                 </div>
             </div>
-            <div id="chart-container"></div>
             <div id="chart-container">
                 <canvas id="booksGraph"></canvas>
             </div>
         </section>
 
         <section id="library" class="page">
-            <h2>Library</h2>
+            <div class="page-header">
+                <h2>Library</h2>
+            </div>
             <input type="text" id="search-bar" placeholder="Search by title, author, or tag">
-            <table id="books-table">
-                <thead>
-                    <tr>
-                        <th>Title</th>
-                        <th>Author</th>
-                        <th>Pages</th>
-                        <th>Tag</th>
-                        <th>Date Added</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody id="books-tbody">
-                    <!-- Book entries will be dynamically added here -->
-                </tbody>
-            </table>
+            <div class="table-wrapper">
+                <div class="table-responsive">
+                    <table id="books-table">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Author</th>
+                                <th>Pages</th>
+                                <th>Tag</th>
+                                <th>Date Added</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="books-tbody">
+                            <!-- Book entries will be dynamically added here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </section>
 
         <section id="add-new" class="page">
-            <h2>Add New Book & Notes</h2>
-            <form id="book-form">
-                <label for="title-input">Title:</label>
-                <input type="text" id="title-input" required>
+            <div class="page-header">
+                <h2>Add New Book & Notes</h2>
+            </div>
+            <div class="form-container">
+                <form id="book-form">
+                    <div class="form-group">
+                        <label for="title-input">Title</label>
+                        <input type="text" id="title-input" required>
+                    </div>
 
-                <label for="author">Author:</label>
-                <input type="text" id="author" required>
+                    <div class="form-group">
+                        <label for="author">Author</label>
+                        <input type="text" id="author" required>
+                    </div>
 
-                <label for="pages">Pages:</label>
-                <input type="number" id="pages" min="1" required>
+                    <div class="form-group">
+                        <label for="pages">Pages</label>
+                        <input type="number" id="pages" min="1" required>
+                    </div>
 
-                <label for="tag">Tag:</label>
-                <input type="text" id="tag" required>
+                    <div class="form-group">
+                        <label for="tag">Tag</label>
+                        <input type="text" id="tag" required>
+                    </div>
 
-                <label for="date-added">Date Added:</label>
-                <input type="date" id="date-added" required>
+                    <div class="form-group">
+                        <label for="date-added">Date Added</label>
+                        <input type="date" id="date-added" required>
+                    </div>
 
-                <button type="submit">Save</button>
-                <button type="button" id="cancel-btn">Cancel</button>
-            </form>
+                    <div class="form-actions">
+                        <button type="submit">Save Book</button>
+                        <button type="button" id="cancel-btn">Cancel</button>
+                    </div>
+                </form>
+            </div>
         </section>
 
         <section id="settings" class="page">
-            <h2>Settings</h2>
-            <div>
-                <label for="theme-select">Theme:</label>
-                <select id="theme-select">
-                    <option value="light">Light</option>
-                    <option value="dark">Dark</option>
-                </select>
-
-                <label for="unit-select">Page Units:</label>
-                <select id="unit-select">
-                    <option value="pages">Pages</option>
-                    <option value="chapters">Chapters</option>
-                </select>
+            <div class="page-header">
+                <h2>Settings</h2>
             </div>
+            <div class="form-container">
+                <div class="form-group">
+                    <label for="theme-select">Theme</label>
+                    <select id="theme-select">
+                        <option value="light">Light</option>
+                        <option value="dark">Dark</option>
+                    </select>
+                </div>
 
-            <div>
-                <button id="import-json">Import JSON</button>
-                <button id="export-json">Export JSON</button>
-            </div>
+                <div class="form-group">
+                    <label for="unit-select">Page Units</label>
+                    <select id="unit-select">
+                        <option value="pages">Pages</option>
+                        <option value="chapters">Chapters</option>
+                    </select>
+                </div>
 
-            <div>
-                <label for="page-goal">Goal / Target Pages:</label>
-                <input type="number" id="page-goal" min="0">
+                <div class="form-group">
+                    <label for="page-goal">Goal / Target Pages</label>
+                    <input type="number" id="page-goal" min="0">
+                </div>
+
+                <div class="form-actions">
+                    <button id="import-json">Import JSON</button>
+                    <button id="export-json">Export JSON</button>
+                </div>
             </div>
         </section>
 
         <section id="about" class="page">
-            <h2>About</h2>
-            <p>The Books & Notes Vault is a personal library app for managing your books and notes. Add, edit, search, and track your books and notes with ease.</p>
-            <p>Contact: Meghan Ke - <a href="mailto:meghankeza33@gmail.com">meghankeza33@gmail.com</a> | <a href="https://github.com/meghan-ke/book_vault">Github</a></p>
+            <div class="page-header">
+                <h2>About</h2>
+            </div>
+            <div class="form-container">
+                <p>The Books & Notes Vault is a personal library app for managing your books and notes. Add, edit, search, and track your books and notes with ease.</p>
+                <p>Contact: Meghan Ke - <a href="mailto:meghankeza33@gmail.com">meghankeza33@gmail.com</a> | <a href="https://github.com/meghan-ke/book_vault">Github</a></p>
+            </div>
         </section>
 
         <section id="notes" class="page">
-            <h2>Notes</h2>
+            <div class="page-header">
+                <h2>Notes</h2>
+            </div>
             <div class="notes-controls">
                 <input type="text" id="notes-search" placeholder="Search notes...">
                 <button id="add-note-btn">New Note</button>
             </div>
             <div id="notes-list"></div>
 
-            <div id="note-editor" style="display:none; margin-top:16px;">
-                <input type="text" id="note-title" placeholder="Title">
-                <textarea id="note-body" rows="6" placeholder="Write your note here..."></textarea>
-                <div>
+            <div id="note-editor" style="display:none;">
+                <div class="form-group">
+                    <input type="text" id="note-title" placeholder="Note title">
+                </div>
+                <div class="form-group">
+                    <textarea id="note-body" rows="6" placeholder="Write your note here..."></textarea>
+                </div>
+                <div class="form-actions">
                     <button id="save-note">Save Note</button>
                     <button id="cancel-note">Cancel</button>
                 </div>
