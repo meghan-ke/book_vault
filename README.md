@@ -7,6 +7,15 @@ Video Link: [https://youtu.be/S0Pu0_ZvqWs]
 Live Demo: [https://meghan-ke.github.io/book_vault/#dashboard]
 Repo Link: [https://github.com/meghan-ke/book_vault.git]
 
+Live Demo: [https://meghan-ke.github.io/book_vault/]
+
+Repo link: [https://github.com/meghan-ke/book_vault.git]
+
+Video link [https://www.youtube.com/]
+
+
+
+
 Open `index.html` in your browser to view the application.
 
 ## 📋 Table of Contents
@@ -250,4 +259,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
+
 *Built with ❤️ for book lovers and note-takers everywhere*
+
