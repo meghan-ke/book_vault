@@ -3,6 +3,9 @@
 A modern, responsive personal digital library application for cataloging books and notes, tracking reading progress, and organizing content with advanced search capabilities.
 
 ## 🚀 Live Demo
+Video Link: [https://youtu.be/S0Pu0_ZvqWs]
+Live Demo: [https://meghan-ke.github.io/book_vault/#dashboard]
+Repo Link: [https://github.com/meghan-ke/book_vault.git]
 
 Open `index.html` in your browser to view the application.
 
