@@ -220,7 +220,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     noteEditor.style.display = 'none';
   });
 
-  notesSearch && notesSearch.addEventListener('input', e => renderNotes(e.target.value));
+  if (notesSearch) {
+    notesSearch.addEventListener('input', e => renderNotes(e.target.value));
+  }
 
   // Add Book
   form.addEventListener('submit', e => {
