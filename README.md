@@ -4,6 +4,16 @@ A modern, responsive personal digital library application for cataloging books a
 
 ## 🚀 Live Demo
 
+Live Demo: [https://]
+
+Repo link: [https://github.com/meghan-ke/book_vault.git]
+
+Video link [https://www.youtube.com/]
+
+Wireframes and spec []
+
+
+
 Open `index.html` in your browser to view the application.
 
 ## 📋 Table of Contents
@@ -246,5 +256,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **Responsive Breakpoints**: 4 (Mobile, Tablet, Desktop, Large Desktop)
 
 ---
+
 
 *Built with ❤️ for book lovers and note-takers everywhere*
