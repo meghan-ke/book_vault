@@ -11,10 +11,26 @@ export async function loadSeed() {
         const date = b.date || b.dateAdded || (b.createdAt ? String(b.createdAt).split('T')[0] : undefined);
         return { ...b, date };
       });
-      setBooks(normalized);
+  setBooks(normalized);
+  console.log('Books loaded:', normalized.length);
+
+  // ui.js will call updateStats() after awaiting loadSeed();
+  document.getElementById('total-books').textContent = normalized.length;
     }
   } catch {
-    console.warn('No seed file found.');
+    // More verbose error logging to help debug fetch issues (e.g. file:// blocking)
+    console.warn('No seed file found or fetch failed. If you opened the page via file:// the browser may block fetch().', arguments[0]);
+    // fallback: support embedding the seed JSON into the page via a global variable
+    try {
+      if (typeof window !== 'undefined' && Array.isArray(window.__BV_SEED)) {
+        const normalized = window.__BV_SEED.map(b => ({ ...b, date: b.date || b.dateAdded || (b.createdAt ? String(b.createdAt).split('T')[0] : undefined) }));
+        setBooks(normalized);
+        const el = document.getElementById('total-books');
+        if (el) el.textContent = normalized.length;
+      }
+    } catch (e) {
+      console.warn('Fallback seed load failed', e);
+    }
   }
 }
 

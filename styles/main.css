@@ -6,9 +6,26 @@
   --accent: #0b69ff; /* primary accent */
   --nav-bg: #071133; /* sidebar */
   --nav-accent: #032b5c; /* navy button */
+  --sidebar-w: 220px;
+  --page-max: 1100px;
+  --base-font: 14px;
   --soft-blue: #e6f4ff;
   --success: #22c55e;
   --glass: rgba(255,255,255,0.6);
+}
+
+/* Dark theme variables applied when html[data-theme='dark'] is set */
+html[data-theme='dark']{
+  --bg: #0b1220;
+  --card: #0f1724;
+  --muted: #9aa6b2;
+  --accent: #4fb3ff;
+  --nav-bg: #071025;
+  --nav-accent: #0b3a66;
+  --soft-blue: #082135;
+  --success: #34d399;
+  --glass: rgba(255,255,255,0.04);
+  color-scheme: dark;
 }
 
 *{box-sizing:border-box}
@@ -19,37 +36,106 @@ body{
   background:var(--bg);
   color:#0f172a;
   -webkit-font-smoothing:antialiased;
+  font-size:var(--base-font);
+  line-height:1.45;
+/* Extra-small phones (narrower than 360px) */
+@media (max-width:359px){
+  .sidebar-nav button, .sidebar-nav a{padding:12px 10px;font-size:15px}
+  .note-card{padding:14px}
+  #books-table th,#books-table td{padding:10px}
 }
+/* Adapt text color when in dark mode */
+html[data-theme='dark'] body{ color: #dbeafe; }
 
 /* Layout */
 .app{
   display:flex;
   min-height:100vh;
+  align-items:stretch;
 }
 
 .sidebar{
   width:220px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  max-width: 80vw;
+  min-width:var(--sidebar-w);
   background:linear-gradient(180deg,var(--nav-bg),#0a1a3a);
   color:#fff;
   padding:20px 16px;
   display:flex;
   flex-direction:column;
   gap:12px;
+  /* Mobile-first responsive breakpoints
+     - base: small phones (default, <360px)
+     - @media (min-width:360px) -> small phones / larger mobile
+     - @media (min-width:768px) -> tablets / small desktops (sidebar visible)
+     - @media (min-width:1024px) -> desktop layout (wider sidebar)
+  */
+
+  .sidebar{position:fixed;left:0;top:0;transform:translateX(-110%);width:var(--sidebar-w);height:100vh;z-index:1200}
+  .sidebar.collapsed{transform:translateX(-110%)}
+  .sidebar:not(.collapsed){transform:translateX(0)}
+  .sidebar-toggle{display:flex}
+  .app{flex-direction:column}
+  main{padding:12px}
+
+  /* Small phones and larger - 360px */
+  @media (min-width:360px){
+    /* slightly larger padding */
+    main{padding:16px}
+    .notes-controls{align-items:center}
+  }
+
+  /* Tablet / small desktop - 768px */
+  @media (min-width:768px){
+    /* show sidebar fixed on the left and keep it visible; content gets a left margin */
+    .app{flex-direction:row}
+    .sidebar{position:fixed;left:0;top:0;transform:translateX(0);height:100vh;overflow-y:auto}
+    .sidebar-toggle{display:none}
+    main{padding:20px;margin-left:var(--sidebar-w);width: calc(100% - var(--sidebar-w));}
+    .chart-container{height:320px}
+    #notes-list{grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
+  }
+  border:none;
+  width:40px;
+  height:40px;
+  border-radius:8px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  box-shadow:0 6px 18px rgba(11,20,40,0.12);
 }
 
-.sidebar-title{font-size:1.1rem;letter-spacing:1px}
-.sidebar-nav{display:flex;flex-direction:column;gap:6px;margin-top:6px}
-.sidebar-nav a, .sidebar-nav button{
-  display:block;text-decoration:none;background:transparent;border:none;color:var(--glass);text-align:left;padding:10px;border-radius:8px;cursor:pointer;font-weight:600;transition:all .18s ease}
-.sidebar-nav a:hover, .sidebar-nav button:hover{background:rgba(255,255,255,0.04);color:#fff}
-.sidebar-nav a[aria-current="page"], .sidebar-nav a.active, .sidebar-nav button[aria-current="page"], .sidebar-nav button.active{background:linear-gradient(90deg,var(--nav-accent),#00306a);color:#fff}
+/* Overlay for when sidebar slides in on small screens */
+.sidebar-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,0.35);z-index:1100;display:none;
+  transform: translateX(0);
+}
 
-main{flex:1;padding:22px}
+/* when sidebar has .open, show overlay */
+.sidebar.open ~ .sidebar-overlay,
+.sidebar.open + .sidebar-overlay,
+.sidebar-overlay.open{ display:block }
 
-.page{opacity:0;transform:translateY(6px);visibility:hidden;transition:all .24s ease}
-.page.active{opacity:1;transform:none;visibility:visible}
+.main-content{flex:1;display:flex;flex-direction:column;min-height:100vh;position:relative;z-index:1;padding-left: 0;}
 
-h2{margin:6px 0 16px 0;font-weight:700;color:#071133}
+/* when sidebar is open on mobile, lock body scroll */
+body.sidebar-open{ overflow: hidden; touch-action: none; }
+
+.page{opacity:0;visibility:hidden;transition:opacity .18s ease;padding-top:0;margin-top:0}
+.page.active{opacity:1;visibility:visible}
+
+/* Ensure active pages align to top of the main area and are scrolled correctly */
+.page { scroll-margin-top: 20px; }
+
+h2{margin:0 0 16px 0;font-weight:700;color:#071133}
+
+/* Ensure the first element inside a page doesn't add extra top spacing */
+.page > *:first-child{margin-top:0}
 
 .statistics{display:flex;flex-wrap:wrap;gap:16px;margin-bottom:18px}
 .stat-el{background:var(--card);padding:14px;border-radius:10px;flex:1 1 180px;box-shadow:0 6px 18px rgba(11,20,40,0.05)}
@@ -68,9 +154,16 @@ h2{margin:6px 0 16px 0;font-weight:700;color:#071133}
 .progress-bar{height:100%;width:0;background:linear-gradient(90deg,var(--success),#66bb6a);transition:width .45s ease}
 
 /* Table */
-#books-table{width:100%;border-collapse:collapse;margin-top:12px;background:var(--card);border-radius:8px;overflow:hidden}
-#books-table th,#books-table td{padding:10px 12px;border-bottom:1px solid #eef2f7;text-align:left}
-#books-table thead th{background:#f8fafc;font-weight:700;color:#334155}
+#books-table{width:100%;border-collapse:collapse;margin-top:12px;background:var(--card);border-radius:8px}
+#books-table th,#books-table td{padding:10px 12px;border-bottom:1px solid rgba(0,0,0,0.06);text-align:left}
+#books-table thead th{background:rgba(0,0,0,0.03);font-weight:700;color:var(--muted)}
+
+/* Dark table adjustments */
+html[data-theme='dark'] #books-table th, html[data-theme='dark'] #books-table td{ border-bottom:1px solid rgba(255,255,255,0.04); color: #dbeafe }
+html[data-theme='dark'] #books-table thead th{ background: rgba(255,255,255,0.02); color: #9fb7d6 }
+
+/* responsive table wrapper (use in markup around table) */
+.table-responsive{overflow-x:auto;-webkit-overflow-scrolling:touch}
 
 /* Forms */
 form{display:flex;flex-direction:column;gap:10px;max-width:520px}
@@ -78,21 +171,109 @@ label{font-weight:600;color:#0f172a}
 input[type="text"],input[type="number"],input[type="date"],select,textarea{padding:10px;border-radius:8px;border:1px solid #e6eef6;background:#fff}
 button, .note-actions button{background:var(--nav-accent);color:#fff;border:none;padding:8px 10px;border-radius:8px;cursor:pointer}
 
+/* Inputs and buttons in dark theme */
+html[data-theme='dark'] input[type="text"],
+html[data-theme='dark'] input[type="number"],
+html[data-theme='dark'] input[type="date"],
+html[data-theme='dark'] select,
+html[data-theme='dark'] textarea{
+  background: var(--card);
+  border: 1px solid rgba(255,255,255,0.06);
+  color: #e6f0ff;
+}
+html[data-theme='dark'] button, html[data-theme='dark'] .note-actions button{ background: var(--nav-accent); }
+
 /* Notes */
-.notes-controls{display:flex;gap:10px;align-items:center;margin-bottom:10px}
-#notes-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+#notes-controls{display:flex;gap:10px;align-items:flex-start;margin-bottom:24px}
+.notes-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
 .note-card{background:var(--card);padding:12px;border-radius:10px;box-shadow:0 6px 18px rgba(11,20,40,0.04)}
 .note-card h4{margin:0 0 6px 0}
 .note-actions{display:flex;gap:8px;margin-top:8px}
 
 /* Search */
-#search-bar,#notes-search{padding:10px;border-radius:8px;border:1px solid #e6eef6;width:100%}
+#search-bar,#notes-search{padding:12px;border-radius:10px;border:1px solid #e6eef6;width:100%;}
+
+/* make touch targets larger on small screens */
+button, .note-actions button{padding:12px 14px}
+
+/* Form actions: horizontal by default, vertical on small screens */
+.form-actions{display:flex;gap:8px;margin-top:6px}
+.form-actions button{min-width:120px}
+@media (max-width:480px){
+  .form-actions{flex-direction:column}
+  .form-actions button{width:100%;min-width:0}
+}
+
+@media (max-width:420px){
+  .sidebar-nav button, .sidebar-nav a{padding:12px 10px;font-size:15px}
+  .note-card{padding:14px}
+  #books-table th,#books-table td{padding:10px}
+}
+
+@media (min-width:768px){
+  .page{max-width:980px}
+}
+
+@media (min-width:1024px){
+  .page{max-width:1200px}
+}
+
+/* Mobile-first responsive breakpoints
+   - base: small phones (default)
+   - @media (min-width: 360px) -> small phones / larger mobile
+   - @media (min-width: 768px) -> tablets / small desktops
+   - @media (min-width: 1024px) -> desktop layout with left sidebar always visible
+*/
+
+.sidebar{position:fixed;left:0;top:0;transform:translateX(0);width:var(--sidebar-w);height:100vh;z-index:1200}
+.sidebar.collapsed{transform:translateX(-110%)}
+.sidebar:not(.collapsed){transform:translateX(0)}
+.sidebar-toggle{display:flex}
+.app{flex-direction:column}
+main{padding:12px;margin-left:var(--sidebar-w)}
+
+/* Small phones and larger - 360px */
+@media (min-width:360px){
+  /* slightly larger padding */
+  main{padding:16px}
+  .notes-controls{align-items:center}
+}
+
+/* Tablet / small desktop - 768px */
+@media (min-width:768px){
+  /* show sidebar fixed on the left and keep it visible; content gets a left margin */
+  .app{flex-direction:row}
+  .sidebar{position:fixed;left:0;top:0;transform:translateX(0);height:100vh;overflow-y:auto}
+  .sidebar-toggle{display:none}
+  main{padding:20px;margin-left:250px;width: calc(100% - 250px);}
+  .chart-container{height:320px}
+  #notes-list{grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
+}
+
+/* Desktop - 1024px and up */
+@media (min-width:1024px){
+  :root{ --sidebar-w: 260px; }
+  .sidebar{width:var(--sidebar-w);min-width:var(--sidebar-w)}
+  main{padding:24px 28px;margin-left:var(--sidebar-w)}
+  .statistics{gap:20px}
+  #books-table th,#books-table td{padding:14px 16px}
+}
 
 /* Footer */
 footer{padding:14px;text-align:center;color:var(--muted);background:linear-gradient(90deg,transparent,transparent)}
 
 /* Responsive */
-@media (max-width:900px){.sidebar{display:none}.app{flex-direction:column}main{padding:12px}.chart-container{height:260px}}
+@media (max-width:720px){
+  /* Mobile: make layout columnar and allow sidebar to overlay content */
+  .app{flex-direction:column}
+  main{padding:12px}
+  .chart-container{height:260px}
+  .sidebar{position:fixed;top:0;left:0;height:100vh;width:260px;transform:translateX(-110%);box-shadow: 6px 0 18px rgba(2,6,23,0.2);}
+  .sidebar.collapsed{transform:translateX(-110%)}
+  .sidebar:not(.collapsed){transform:translateX(0);opacity:1;pointer-events:auto}
+  /* show toggle on mobile */
+  .sidebar-toggle{display:flex}
+}
 
 .notes-controls {
     display: flex;

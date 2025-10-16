@@ -40,6 +40,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   const weeklyProgressBar = document.getElementById('weekly-progress-bar');
   const weeklyProgressText = document.getElementById('weekly-progress-text');
 
+  // key for storing weekly goal in localStorage
+  const WEEKLY_GOAL_KEY = 'bv_weekly_goal_v1';
+
   await loadSeed();
   renderLibrary();
   updateStats();
@@ -89,12 +92,24 @@ document.addEventListener('DOMContentLoaded', async () => {
       });
     }
 
-    // when showing certain pages, refresh data
+    // when showing certain pages, refresh data BEFORE scrolling so content is present
     if (name === 'dashboard') {
-      updateStats();
       renderChart();
+      updateStats();
     }
     if (name === 'library') renderLibrary();
+    if (name === 'notes') renderNotes();
+
+    // ensure the viewport shows the top of the newly activated page (scroll the page element)
+    try {
+      const activeEl = document.getElementById(pageKey) || document.querySelector('.page.active');
+      if (activeEl && typeof activeEl.scrollIntoView === 'function') {
+        // use instant scroll to avoid animated jumps which interact with layout reflow
+        activeEl.scrollIntoView({ block: 'start', behavior: 'auto' });
+      } else {
+        window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+      }
+    } catch (e) { window.scrollTo(0,0); }
   }
 
   // Attach click handlers to nav buttons
@@ -304,7 +319,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   // Weekly goal: persistent and computed from book dates
-  const WEEKLY_GOAL_KEY = 'bv_weekly_goal_v1';
 
   function getWeeklyGoal() {
     const raw = localStorage.getItem(WEEKLY_GOAL_KEY);
@@ -545,6 +559,110 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.documentElement.setAttribute('data-theme', saved);
     themeSelect.value = saved;
   }
+
+  // Ensure the <aside class="sidebar"> is in the expected place and add a mobile toggle
+  (function ensureSidebarPlacement(){
+    try {
+      const aside = document.querySelector('aside.sidebar');
+      const main = document.getElementById('main-content');
+      if (!aside) return;
+
+      // If aside is not the previous sibling of main, move it so layout styles expecting that order work
+      if (main && aside.nextElementSibling !== main) {
+        main.parentNode.insertBefore(aside, main);
+      }
+
+      // Add accessibility attributes
+      aside.setAttribute('role', 'complementary');
+      aside.setAttribute('aria-label', aside.querySelector('.sidebar-title')?.textContent?.trim() || 'Sidebar');
+
+      // Create a simple mobile toggle if not present
+      if (!document.querySelector('.sidebar-toggle')) {
+        const toggle = document.createElement('button');
+        toggle.className = 'sidebar-toggle';
+        toggle.type = 'button';
+        toggle.setAttribute('aria-expanded', 'true');
+        toggle.setAttribute('aria-controls', aside.id || '');
+        toggle.title = 'Toggle sidebar';
+        toggle.textContent = '☰';
+        // insert toggle before main so it's visually near top-left on narrow screens
+        if (main) main.parentNode.insertBefore(toggle, main);
+
+        // create overlay (used on small screens) if not present
+        let overlay = document.querySelector('.sidebar-overlay');
+        if (!overlay) {
+          overlay = document.createElement('div');
+          overlay.className = 'sidebar-overlay';
+          document.body.appendChild(overlay);
+        }
+
+        // Wire up toggle behavior
+        toggle.addEventListener('click', () => {
+          // toggle collapsed state
+          aside.classList.toggle('collapsed');
+          const expanded = !aside.classList.contains('collapsed');
+          // reflect open state with an explicit class and aria
+          aside.classList.toggle('open', expanded);
+          toggle.setAttribute('aria-expanded', String(expanded));
+          // lock page scroll while sidebar is open (mobile)
+          document.body.classList.toggle('sidebar-open', expanded);
+          // persist state
+          localStorage.setItem('bv_sidebar_open', String(expanded));
+        });
+
+        // clicking overlay closes the sidebar
+        overlay.addEventListener('click', () => {
+          aside.classList.add('collapsed');
+          aside.classList.remove('open');
+          const togg = document.querySelector('.sidebar-toggle');
+          if (togg) togg.setAttribute('aria-expanded', 'false');
+          document.body.classList.remove('sidebar-open');
+          localStorage.setItem('bv_sidebar_open', 'false');
+        });
+
+        // close on Escape key when sidebar is open
+        document.addEventListener('keydown', (ev) => {
+          if (ev.key === 'Escape' && !aside.classList.contains('collapsed')) {
+            aside.classList.add('collapsed');
+            aside.classList.remove('open');
+            const togg = document.querySelector('.sidebar-toggle');
+            if (togg) togg.setAttribute('aria-expanded', 'false');
+            document.body.classList.remove('sidebar-open');
+            localStorage.setItem('bv_sidebar_open', 'false');
+          }
+        });
+      }
+
+      // Ensure CSS-friendly classes exist for initial state on small screens
+      // if no explicit state saved, keep sidebar visible on wide screens and collapsed on narrow
+      const saved = localStorage.getItem('bv_sidebar_open');
+      if (saved !== null) {
+        aside.classList.toggle('collapsed', saved === 'false');
+        aside.classList.toggle('open', saved === 'true');
+        const togg = document.querySelector('.sidebar-toggle');
+        if (togg) togg.setAttribute('aria-expanded', String(saved === 'true'));
+        // ensure body scroll lock matches saved state
+        document.body.classList.toggle('sidebar-open', saved === 'true');
+      } else {
+        // heuristic: collapse if viewport width < 720
+        const shouldCollapse = window.innerWidth < 720;
+        aside.classList.toggle('collapsed', shouldCollapse);
+        const togg = document.querySelector('.sidebar-toggle');
+        if (togg) togg.setAttribute('aria-expanded', String(!shouldCollapse));
+      }
+
+      // persist collapse state when changed
+      const togg = document.querySelector('.sidebar-toggle');
+      if (togg) {
+        togg.addEventListener('click', () => {
+          const open = !document.querySelector('aside.sidebar').classList.contains('collapsed');
+          localStorage.setItem('bv_sidebar_open', String(open));
+        });
+      }
+    } catch (err) {
+      console.warn('Sidebar placement helper failed', err);
+    }
+  })();
 });
 
 
