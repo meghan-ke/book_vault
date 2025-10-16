@@ -1,0 +1,139 @@
+/* Modern UI stylesheet for Book Vault */
+:root{
+  --bg: #f5f8fb;
+  --card: #ffffff;
+  --muted: #6b7280;
+  --accent: #0b69ff; /* primary accent */
+  --nav-bg: #071133; /* sidebar */
+  --nav-accent: #032b5c; /* navy button */
+  --soft-blue: #e6f4ff;
+  --success: #22c55e;
+  --glass: rgba(255,255,255,0.6);
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background:var(--bg);
+  color:#0f172a;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* Layout */
+.app{
+  display:flex;
+  min-height:100vh;
+}
+
+.sidebar{
+  width:220px;
+  background:linear-gradient(180deg,var(--nav-bg),#0a1a3a);
+  color:#fff;
+  padding:20px 16px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+.sidebar-title{font-size:1.1rem;letter-spacing:1px}
+.sidebar-nav{display:flex;flex-direction:column;gap:6px;margin-top:6px}
+.sidebar-nav a, .sidebar-nav button{
+  display:block;text-decoration:none;background:transparent;border:none;color:var(--glass);text-align:left;padding:10px;border-radius:8px;cursor:pointer;font-weight:600;transition:all .18s ease}
+.sidebar-nav a:hover, .sidebar-nav button:hover{background:rgba(255,255,255,0.04);color:#fff}
+.sidebar-nav a[aria-current="page"], .sidebar-nav a.active, .sidebar-nav button[aria-current="page"], .sidebar-nav button.active{background:linear-gradient(90deg,var(--nav-accent),#00306a);color:#fff}
+
+main{flex:1;padding:22px}
+
+.page{opacity:0;transform:translateY(6px);visibility:hidden;transition:all .24s ease}
+.page.active{opacity:1;transform:none;visibility:visible}
+
+h2{margin:6px 0 16px 0;font-weight:700;color:#071133}
+
+.statistics{display:flex;flex-wrap:wrap;gap:16px;margin-bottom:18px}
+.stat-el{background:var(--card);padding:14px;border-radius:10px;flex:1 1 180px;box-shadow:0 6px 18px rgba(11,20,40,0.05)}
+
+/* Chart container */
+.chart-container{height:340px;background:var(--card);padding:12px;border-radius:10px;box-shadow:0 6px 18px rgba(11,20,40,0.04);margin-bottom:14px}
+.chart-container canvas{width:100% !important;height:100% !important}
+
+/* Goal card */
+.goal-card{background:linear-gradient(180deg,var(--soft-blue),#d9efff);border:1px solid #cbe8ff}
+.goal-card h3{margin:0 0 8px 0}
+.goal-input-row{display:flex;gap:8px;align-items:center}
+.goal-input-row input{padding:8px;border-radius:8px;border:1px solid #cfe6ff;width:150px}
+.goal-input-row button{padding:8px 10px;border-radius:8px;border:none;background:var(--nav-accent);color:#fff;cursor:pointer}
+.progress-container{width:100%;height:14px;background:#e6eef9;border-radius:8px;overflow:hidden;margin-top:8px}
+.progress-bar{height:100%;width:0;background:linear-gradient(90deg,var(--success),#66bb6a);transition:width .45s ease}
+
+/* Table */
+#books-table{width:100%;border-collapse:collapse;margin-top:12px;background:var(--card);border-radius:8px;overflow:hidden}
+#books-table th,#books-table td{padding:10px 12px;border-bottom:1px solid #eef2f7;text-align:left}
+#books-table thead th{background:#f8fafc;font-weight:700;color:#334155}
+
+/* Forms */
+form{display:flex;flex-direction:column;gap:10px;max-width:520px}
+label{font-weight:600;color:#0f172a}
+input[type="text"],input[type="number"],input[type="date"],select,textarea{padding:10px;border-radius:8px;border:1px solid #e6eef6;background:#fff}
+button, .note-actions button{background:var(--nav-accent);color:#fff;border:none;padding:8px 10px;border-radius:8px;cursor:pointer}
+
+/* Notes */
+.notes-controls{display:flex;gap:10px;align-items:center;margin-bottom:10px}
+#notes-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.note-card{background:var(--card);padding:12px;border-radius:10px;box-shadow:0 6px 18px rgba(11,20,40,0.04)}
+.note-card h4{margin:0 0 6px 0}
+.note-actions{display:flex;gap:8px;margin-top:8px}
+
+/* Search */
+#search-bar,#notes-search{padding:10px;border-radius:8px;border:1px solid #e6eef6;width:100%}
+
+/* Footer */
+footer{padding:14px;text-align:center;color:var(--muted);background:linear-gradient(90deg,transparent,transparent)}
+
+/* Responsive */
+@media (max-width:900px){.sidebar{display:none}.app{flex-direction:column}main{padding:12px}.chart-container{height:260px}}
+
+.notes-controls {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+#notes-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 12px;
+}
+
+.note-card {
+    background: #fff;
+    padding: 12px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+}
+
+.note-card h4 {
+    margin-bottom: 8px;
+}
+
+.note-actions { display:flex; gap:8px; margin-top:8px; }
+
+#note-editor input, #note-editor textarea { width:100%; padding:8px; margin-bottom:8px; }
+
+/* Weekly goal card */
+.goal-card h3 { margin: 0 0 8px 0; }
+.goal-input-row { display:flex; gap:8px; align-items:center; }
+.goal-input-row input { padding:8px; width:160px; }
+.goal-input-row button { padding:8px 10px; cursor:pointer; background:#032b5c; color:#fff; border:none; border-radius:6px; }
+.progress-container { width:100%; height:14px; background:#e6e6e6; border-radius:8px; overflow:hidden; margin-top:8px; }
+.progress-bar { height:100%; width:0%; background: linear-gradient(90deg,#4caf50,#66bb6a); transition: width 400ms ease; }
+.goal-display { font-size:0.95rem; }
+/* blue background for goal card */
+.goal-card { background: linear-gradient(180deg,#e6f4ff,#d9efff); border: 1px solid #cbe8ff; }
+
+/* Chart container sizing */
+.chart-container { height: 300px; background: #fff; padding: 12px; border-radius: 10px; box-shadow: 0 3px 6px rgba(0,0,0,0.05); }
+.chart-container canvas { width: 100% !important; height: 100% !important; }
+

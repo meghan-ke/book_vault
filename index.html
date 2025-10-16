@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book & Notes Vault</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+<body>
+    <aside class="sidebar">
+        <h1 class="sidebar-title">DASHBOARD</h1>
+        <nav class="sidebar-nav">
+            <button data-nav="dashboard" class="active">Dashboard</button>
+            <button data-nav="library">Library</button>
+            <button data-nav="notes">Notes</button>
+            <button data-nav="add-new">Add New</button>
+            <button data-nav="settings">Settings</button>
+            <button data-nav="about">About</button>
+        </nav>
+    </aside>
+
+    <main id="main-content">
+        <section id="dashboard" class="page active">
+            <h2>Dashboard</h2>
+            <div class="statistics">
+                <div class="stat-el">Total Books: <span id="total-books">0</span></div>
+                <div class="stat-el">Total Pages: <span id="total-pages">0</span></div>
+                <div class="stat-el">Top Tag: <span id="top-tag">-</span></div>
+                <div class="stat-el">Recently Added: <span id="recent">-</span></div>
+            </div>
+            <div class="goal-card stat-el" style="margin-bottom:16px;">
+                <h3>Weekly Reading Goal</h3>
+                <div class="goal-input-row">
+                    <input type="number" id="weekly-goal-input" min="0" placeholder="Pages per week">
+                    <button id="set-weekly-goal">Set Goal</button>
+                    <button id="clear-weekly-goal" title="Clear goal">Clear</button>
+                </div>
+                <div class="goal-display" style="margin-top:12px;">
+                    <div>Target: <strong id="weekly-goal-value">0</strong> pages / week</div>
+                    <div class="progress-container" aria-hidden="true">
+                        <div id="weekly-progress-bar" class="progress-bar"></div>
+                    </div>
+                    <div id="weekly-progress-text" style="margin-top:6px; font-size:0.95rem; color:#333;">No progress yet</div>
+                </div>
+            </div>
+            <div id="chart-container"></div>
+            <div id="chart-container">
+                <canvas id="booksGraph"></canvas>
+            </div>
+        </section>
+
+        <section id="library" class="page">
+            <h2>Library</h2>
+            <input type="text" id="search-bar" placeholder="Search by title, author, or tag">
+            <table id="books-table">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Author</th>
+                        <th>Pages</th>
+                        <th>Tag</th>
+                        <th>Date Added</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="books-tbody">
+                    <!-- Book entries will be dynamically added here -->
+                </tbody>
+            </table>
+        </section>
+
+        <section id="add-new" class="page">
+            <h2>Add New Book & Notes</h2>
+            <form id="book-form">
+                <label for="title-input">Title:</label>
+                <input type="text" id="title-input" required>
+
+                <label for="author">Author:</label>
+                <input type="text" id="author" required>
+
+                <label for="pages">Pages:</label>
+                <input type="number" id="pages" min="1" required>
+
+                <label for="tag">Tag:</label>
+                <input type="text" id="tag" required>
+
+                <label for="date-added">Date Added:</label>
+                <input type="date" id="date-added" required>
+
+                <button type="submit">Save</button>
+                <button type="button" id="cancel-btn">Cancel</button>
+            </form>
+        </section>
+
+        <section id="settings" class="page">
+            <h2>Settings</h2>
+            <div>
+                <label for="theme-select">Theme:</label>
+                <select id="theme-select">
+                    <option value="light">Light</option>
+                    <option value="dark">Dark</option>
+                </select>
+
+                <label for="unit-select">Page Units:</label>
+                <select id="unit-select">
+                    <option value="pages">Pages</option>
+                    <option value="chapters">Chapters</option>
+                </select>
+            </div>
+
+            <div>
+                <button id="import-json">Import JSON</button>
+                <button id="export-json">Export JSON</button>
+            </div>
+
+            <div>
+                <label for="page-goal">Goal / Target Pages:</label>
+                <input type="number" id="page-goal" min="0">
+            </div>
+        </section>
+
+        <section id="about" class="page">
+            <h2>About</h2>
+            <p>The Books & Notes Vault is a personal library app for managing your books and notes. Add, edit, search, and track your books and notes with ease.</p>
+            <p>Contact: Meghan Ke - <a href="mailto:meghankeza33@gmail.com">meghankeza33@gmail.com</a> | <a href="https://github.com/meghan-ke/book_vault">Github</a></p>
+        </section>
+
+        <section id="notes" class="page">
+            <h2>Notes</h2>
+            <div class="notes-controls">
+                <input type="text" id="notes-search" placeholder="Search notes...">
+                <button id="add-note-btn">New Note</button>
+            </div>
+            <div id="notes-list"></div>
+
+            <div id="note-editor" style="display:none; margin-top:16px;">
+                <input type="text" id="note-title" placeholder="Title">
+                <textarea id="note-body" rows="6" placeholder="Write your note here..."></textarea>
+                <div>
+                    <button id="save-note">Save Note</button>
+                    <button id="cancel-note">Cancel</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Meghan Ke</p>
+    </footer>
+
+    <script type="module" src="scripts/ui.js"></script>
+</body>
+</html>

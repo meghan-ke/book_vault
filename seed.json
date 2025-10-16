@@ -1,0 +1,103 @@
+[
+  {
+    "id": "book_005",
+    "title": "The summer I turned pretty",
+    "author": "Jenny Han",
+    "pages": 312,
+    "tag": "Summer love",
+    "dateAdded": "2025-08-25",
+    "createdAt": "2025-08-25T09:45:00Z",
+    "updatedAt": "2025-08-25T09:45:00Z"
+  },
+  {
+    "id": "book_003",
+    "title": "War and Peace",
+    "author": "Leo Tolstoy",
+    "pages": 1225,
+    "tag": "Classico",
+    "dateAdded": "2025-09-20",
+    "createdAt": "2025-09-20T10:00:00Z",
+    "updatedAt": "2025-09-20T10:00:00Z"
+  },
+  {
+    "id": "book_004",
+    "title": "To kill a mockingbird",
+    "author": "Harper lee ",
+    "pages": 281,
+    "tag": "Classic",
+    "dateAdded": "2025-10-05",
+    "createdAt": "2025-10-05T11:30:00Z",
+    "updatedAt": "2025-10-05T11:30:00Z"
+  },
+  {
+    "id": "book_006",
+    "title": "The Guernsey Literary and Potato Peel Pie Society Mary ",
+    "author": "Annie Barrows",
+    "pages": 274,
+    "tag": "Historical fiction",
+    "dateAdded": "2025-11-15",
+    "createdAt": "2025-11-15T14:20:00Z",
+    "updatedAt": "2025-11-15T14:20:00Z"
+  },
+  {
+    "id": "book_007",
+    "title": "El Curioso Incidente Del Perro A Medianoche",
+    "author": "Mark Haddon",
+    "pages": 226,
+    "tag": "Mystery",
+    "dateAdded": "2025-12-01",
+    "createdAt": "2025-12-01T16:45:00Z",
+    "updatedAt": "2025-12-01T16:45:00Z"
+  },
+  {
+    "id": "book_008",
+    "title": "The Night Circus",
+    "author": "Erin Morgenstern",
+    "pages": 387,
+    "tag": "Fantasy",
+    "dateAdded": "2026-01-10",
+    "createdAt": "2026-01-10T18:00:00Z",
+    "updatedAt": "2026-01-10T18:00:00Z"
+  },
+  {
+    "id": "book_009",
+    "title": "The Alchemist",
+    "author": "Paulo Coelho",
+    "pages": 208,
+    "tag": "Philosophical fiction",
+    "dateAdded": "2026-02-14",
+    "createdAt": "2026-02-14T20:15:00Z",
+    "updatedAt": "2026-02-14T20:15:00Z"
+  },
+  {
+    "id": "book_010",
+    "title": "Lamb: The Gospel According to Biff, Christ's Childhood Pal",
+    "author": "Christopher Moore",
+    "pages": 320,
+    "tag": "Historical fiction",
+    "dateAdded": "2026-03-22",
+    "createdAt": "2026-03-22T21:30:00Z",
+    "updatedAt": "2026-03-22T21:30:00Z"
+  },
+  {
+    "id": "book_011",
+    "title": "The Librarians",
+    "author": "Janet Evanovich &amp; Steve Hamilton",
+    "pages": 304,
+    "tag": "Mystery",
+    "dateAdded": "2026-04-18",
+    "createdAt": "2026-04-18T22:45:00Z",
+    "updatedAt": "2026-04-18T22:45:00Z"
+
+  },
+  { 
+    "id": "book_012",
+    "title": "Romance of the Three Kingdoms",
+    "author": "Luo Guanzhong",
+    "pages": 800,
+    "tag": "Romantic comedy",
+    "dateAdded": "2026-05-30",
+    "createdAt": "2026-05-30T23:59:00Z",
+    "updatedAt": "2026-05-30T23:59:00Z"
+  }
+]
