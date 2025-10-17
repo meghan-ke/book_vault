@@ -4,14 +4,9 @@ A modern, responsive personal digital library application for cataloging books a
 
 ## 🚀 Live Demo
 Video Link: [https://youtu.be/S0Pu0_ZvqWs]
-Live Demo: [https://meghan-ke.github.io/book_vault/#dashboard]
+Deployment Github pages: [https://meghan-ke.github.io/book_vault/#dashboard]
 Repo Link: [https://github.com/meghan-ke/book_vault.git]
 
-Live Demo: [https://meghan-ke.github.io/book_vault/]
-
-Repo link: [https://github.com/meghan-ke/book_vault.git]
-
-Video link [https://www.youtube.com/]
 
 
 
